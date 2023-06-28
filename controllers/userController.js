@@ -1,11 +1,12 @@
 const User = require('../models/user')
+const Cart = require('../models/cart')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 exports.auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
-        const data = jwt.verify(token, process. env.SECRET)
+        const data = jwt.verify(token, process.env.SECRET)
         const user = await User.findOne({ _id: data._id })
         if (!user) {
             throw new Error('bad credentials')
@@ -21,6 +22,10 @@ exports.registerUser = async (req, res) => {
     try {
         const user = new User(req.body)
         await user.save()
+        const cart = new Cart({ user: user._id})
+        user.cart = cart
+        await user.save()
+        await user.cart.save()
         const token = await user.generateAuthToken()
         res.json({ user, token })
     } catch (error) {

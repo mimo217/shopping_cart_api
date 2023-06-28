@@ -2,7 +2,7 @@ const Item = require('../models/item')
 
 exports.itemList = async (req, res) => {
     try {
-        const items = await Item.find
+        const items = await Item.find()
         res.json({ items })
 
     } catch (error) {
@@ -13,7 +13,7 @@ exports.itemList = async (req, res) => {
 
 exports.itemId = async (req, res) => {
     try {
-        const item = await Item.findId(req.params.id)
+        const item = await Item.findById(req.params.id)
         if (!item) {
             return res.status(400).json({ message: 'Item not found'})
         }
