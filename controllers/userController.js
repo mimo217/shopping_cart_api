@@ -22,7 +22,7 @@ exports.registerUser = async (req, res) => {
     try {
         const user = new User(req.body)
         await user.save()
-        const cart = new Cart({ user: user._id})
+        const cart = new Cart({ user: user._id })
         user.cart = cart
         await user.save()
         await user.cart.save()
@@ -47,13 +47,82 @@ exports.loginUser = async (req, res) => {
     }
 }
 
-exports.userProfile = async (req, res) => {
+exports.profileUser = async (req, res) => {
     try {
         const user = req.user
         res.json({ user })
 
     } catch (error) {
-        res.status(400).json({message: error. message})
-    
+        res.status(400).json({ message: error.message })
+
+    }
+}
+
+
+exports.logoutUser = async (req, res) => {
+    try {
+        const user = req.user
+        res.json({ user })
+
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+
+    }
+}
+
+
+exports.userCart = async (req, res) => {
+    try {
+        const { userId, itemId } = req.body
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' })
+        }
+
+        const item = await Item.findById(itemId);
+        if (!item) {
+            return res.status(400).json({ message: 'Item not found' })
+        }
+
+        user.cart.push(item)
+        await user.save();
+
+        res.json({ message: 'Item added to the user\'s cart' });
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+
+    }
+}
+
+exports.userCartId = async (req, res) => {
+    try {
+        const userId = req.params.id
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' })
+        }
+        const cart = user.cart
+        res.json({ cart })
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+exports.userCartAddItem = async (req, res) => {
+    try {
+        const { userId, itemId }= req.params.id
+        const user = await User.findById(UserId);
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' })
+        }
+        const item = await item.findById(itemId)
+        if (!item) {
+            return res.status(400).json({ message: 'Item not found' })
+        }
+        user.cart.push(item);
+        await user.save();
+        res.json({ message: 'Item added to the user\'s cart' })
+    } catch (error) {
+        res.status(400).json({ message: error.message })
     }
 }
