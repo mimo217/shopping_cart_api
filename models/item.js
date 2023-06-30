@@ -7,6 +7,6 @@ const itemSchema = new mongoose.Schema ({
     quantity: {type: Number, required: true}
 })
 
-const item = mongoose.model('Item', itemSchema);
+const Item = mongoose.model('Item', itemSchema)
 
-module.exports = Item
+module.exports = Item;

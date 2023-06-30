@@ -29,7 +29,7 @@ exports.registerUser = async (req, res) => {
         const token = await user.generateAuthToken()
         res.json({ user, token })
     } catch (error) {
-        res.status(400).json({ messaage: error.message })
+        res.status(400).json({ message: error.message })
     }
 }
 
@@ -110,12 +110,12 @@ exports.userCartId = async (req, res) => {
 
 exports.userCartAddItem = async (req, res) => {
     try {
-        const { userId, itemId }= req.params.id
-        const user = await User.findById(UserId);
+        const { userId, itemId } = req.params
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(400).json({ message: 'User not found' })
         }
-        const item = await item.findById(itemId)
+        const item = await Item.findById(itemId)
         if (!item) {
             return res.status(400).json({ message: 'Item not found' })
         }
