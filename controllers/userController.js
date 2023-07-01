@@ -14,7 +14,7 @@ exports.auth = async (req, res, next) => {
         req.user = user
         next()
     } catch (error) {
-        res.status(401).json({ message: error.message })
+        res.status(400).json({ message: error.message })
     }
 }
 

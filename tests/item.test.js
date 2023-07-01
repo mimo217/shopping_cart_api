@@ -21,9 +21,9 @@ describe('Test the items endpoints', () => {
   });
 
   test('It should get a list of items', async () => {
-    const item1 = new Item({ name: 'Item 1', quanity: 1, price: $15, description: 'ladder' });
+    const item1 = new Item({ name: 'Item 1', quantity: 1, price: 15, description: 'ladder' });
     await item1.save();
-    const item2 = new Item({ name: 'Item 2', quantity: 3, price: $20, description: 'light bulb' });
+    const item2 = new Item({ name: 'Item 2', quantity: 3, price: 20, description: 'light bulb' });
     await item2.save();
 
     const response = await request(app).get('/items');

@@ -24,13 +24,19 @@ describe('Test the users endpoints', () => {
     });
 
 test('It should create/register a new user', async () => {
-    const response = await request (app)
-    .post('/users')
-    .send({name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456'})
+    const user = {
+        name: 'Amy Johnson',
+        email: 'Amy Johnson@yahoo.com',
+        password: 'chips123456',
+    }
 
+    const response = await request (app)
+    .post('/users/register')
+    .send(user)
+    
     expect(response.statusCode).toBe(200)
-    expect(response.body.user.name).toEqual('Amy Johnson')
-    expect(response.body.user.email).toEqual('Amy.Johnson@yahoo.com')
+    expect(response.body.user.name).toEqual('user.name')
+    expect(response.body.user.email).toEqual('user.email')
     expect(response.body).toHaveProperty('token')
   })
 
@@ -121,8 +127,8 @@ test('It should add an item to the user\'s cart', async () => {
     expect(response.statusCode).toBe(200)
     expect(response.body.message).toEqual('Item added to the user\'s cart')
     const updatedUser = await User.findById(user._id)
-    expect(updatedUser.response.cart.length).toBe(1)
-    expect(response.body.cart[0].id.toString()).toEqual(item._id.toString())
+    expect(updatedUser.cart.length).toBe(1)
+    expect(response.body.cart[0]._id.toString()).toEqual(item._id.toString())
   })
 
 
