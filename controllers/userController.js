@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Cart = require('../models/cart')
+const Item = require('../models/item')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -49,7 +50,7 @@ exports.loginUser = async (req, res) => {
 
 exports.profileUser = async (req, res) => {
     try {
-        const user = req.user
+        const user = await User.find({ _id: req.params.id })
         res.json({ user })
 
     } catch (error) {
@@ -61,8 +62,8 @@ exports.profileUser = async (req, res) => {
 
 exports.logoutUser = async (req, res) => {
     try {
-        const user = req.user
-        res.json({ user })
+        req.session.destroy();
+        res.json({ messsage: "Logout successful" })
 
     } catch (error) {
         res.status(400).json({ message: error.message })
@@ -110,19 +111,38 @@ exports.userCartId = async (req, res) => {
 
 exports.userCartAddItem = async (req, res) => {
     try {
-        const { userId, itemId } = req.params
-        const user = await User.findById(userId);
+        const { userid, itemid } = req.params
+        const user = await User.findById(userid);
         if (!user) {
             return res.status(400).json({ message: 'User not found' })
         }
-        const item = await Item.findById(itemId)
+        const item = await Item.findById(itemid)
         if (!item) {
             return res.status(400).json({ message: 'Item not found' })
         }
-        user.cart.push(item);
+        const cart = await Cart.findById(user.cart)
+        cart.items.push(itemid)
+        console.log(cart)
+        await cart.save();
         await user.save();
-        res.json({ message: 'Item added to the user\'s cart' })
+        res.json(cart)
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ message: "error.message" })
+    }
+}
+
+exports.userCartRemoveItem = async (req, res) => {
+    try {
+        const itemid = req.params.itemid
+        const user = req.user
+        const index = user.cart.items.indexOf(itemid)
+        if (index === -1) {
+            return res.status(400).json({ message: 'Item not found in the cart' })
+        }
+        user.cart.items.splice(index, 1);
+        await user.save()
+        res.json({ message: 'Item removed from the cart' })
+    } catch (error) {
+        res.status(400).json({ message: "error.message" })
     }
 }
