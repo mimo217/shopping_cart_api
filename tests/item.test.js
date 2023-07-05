@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const { MongoMemoryServer } = require('mongodb-memory-server')
 const app  = require('../app')
 const Item = require('../models/item')
+
 let mongoServer
 
 beforeAll(async () => {
@@ -29,18 +30,18 @@ describe('Test the items endpoints', () => {
     const response = await request(app).get('/items');
 
     expect(response.statusCode).toBe(200);
-    expect(response.body.items.length).toBe(2);
-    expect(response.body.items[0].name).toEqual('Item 1');
-    expect(response.body.items[1].name).toEqual('Item 2');
+    expect(response.body.length).toBe(2);
+    expect(response.body[0].name).toEqual('Item 1');
+    expect(response.body[1].name).toEqual('Item 2');
   });
 
   test('It should get an item by ID', async () => {
-    const item = new Item({ name: 'Example Item' });
+    const item = new Item({ name: 'Item 1', quantity: 1, price: 15, description: 'ladder' });
     await item.save();
 
     const response = await request(app).get(`/items/${item._id}`);
 
     expect(response.statusCode).toBe(200);
-    expect(response.body.item.name).toEqual('Example Item');
+    expect(response.body.name).toEqual('Item 1');
   });
 });

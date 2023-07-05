@@ -15,7 +15,7 @@ exports.auth = async (req, res, next) => {
         req.user = user
         next()
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(401).json({ message: error.message })
     }
 }
 
@@ -27,10 +27,11 @@ exports.registerUser = async (req, res) => {
         user.cart = cart
         await user.save()
         await user.cart.save()
-        const token = await user.generateAuthToken()
-        res.json({ user, token })
+        const token = await user.generateAuthToken(process.env.SECRET)
+        res.status(200).json({ user: {name: user.name,email: user.email }, token, message: 'User registered successfully' })
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        console.error(error)
+        res.status(400).json({ message: 'Unable to register the user', user: null })
     }
 }
 
@@ -40,7 +41,7 @@ exports.loginUser = async (req, res) => {
         if (!user || !await bcrypt.compare(req.body.password, user.password)) {
             throw new Error('Invalid login credentials')
         } else {
-            const token = await user.generateAuthToken()
+            const token = await user.generateAuthToken(process.env.SECRET)
             res.json({ user, token })
         }
     } catch (error) {
@@ -50,7 +51,7 @@ exports.loginUser = async (req, res) => {
 
 exports.profileUser = async (req, res) => {
     try {
-        const user = await User.find({ _id: req.params.id })
+        const user = await User.findOne({ _id: req.params.id })
         res.json({ user })
 
     } catch (error) {
@@ -59,17 +60,26 @@ exports.profileUser = async (req, res) => {
     }
 }
 
-
 exports.logoutUser = async (req, res) => {
     try {
-        req.session.destroy();
-        res.json({ messsage: "Logout successful" })
-
+        const user = req.user
+        user.token = []
+        await user.save()
+        res.json({ message: 'Logout successful' })
     } catch (error) {
         res.status(400).json({ message: error.message })
-
     }
 }
+
+exports.deleteUser = async (req, res) => {
+    try{
+      await req.user.deleteOne()
+      res.json({ message: 'User deleted' })
+    }catch(error){
+      res.status(400).json({message: error.message})
+    }
+  }
+
 
 
 exports.userCart = async (req, res) => {
@@ -111,7 +121,7 @@ exports.userCartId = async (req, res) => {
 
 exports.userCartAddItem = async (req, res) => {
     try {
-        const { userid, itemid } = req.params
+        const { userid, itemid } = req.body
         const user = await User.findById(userid);
         if (!user) {
             return res.status(400).json({ message: 'User not found' })
@@ -127,7 +137,7 @@ exports.userCartAddItem = async (req, res) => {
         await user.save();
         res.json(cart)
     } catch (error) {
-        res.status(400).json({ message: "error.message" })
+        res.status(400).json({ message: 'error.message' })
     }
 }
 
@@ -143,6 +153,6 @@ exports.userCartRemoveItem = async (req, res) => {
         await user.save()
         res.json({ message: 'Item removed from the cart' })
     } catch (error) {
-        res.status(400).json({ message: "error.message" })
+        res.status(400).json({ message: 'error.message' })
     }
 }
