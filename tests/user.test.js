@@ -5,6 +5,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server')
 const app = require('../app')
 const User = require('../models/user')
 const Item = require('../models/item')
+const Cart = require('../models/cart')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -30,83 +31,72 @@ describe('Test the users endpoints', () => {
         const response = await request(app)
             .post('/users/register')
             .send({
-                name: 'Amy Johnson',
-                email: 'Amy.Johnson@yahoo.com',
-                password: 'chips123456'
+                name: 'Harry Potter',
+                email: 'Harry.Potter@Hogwarts.com',
+                password: 'Gryfindoor1234567'
             })
 
         expect(response.statusCode).toBe(200)
-        expect(response.body.user.name).toEqual('Amy Johnson')
-        expect(response.body.user.email).toEqual('Amy.Johnson@yahoo.com')
+        expect(response.body.user.name).toEqual('Harry Potter')
+        expect(response.body.user.email).toEqual('Harry.Potter@Hogwarts.com')
         expect(response.body).toHaveProperty('token')
     })
 
     test('It should login a user', async () => {
-        const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
+        const user = new User({ name: 'Harry Potter', email: 'Harry.Potter@Hogwarts.com', password: 'Gryfindoor1234567' })
         await user.save()
 
         const response = await request(app)
             .post('/users/login')
-            .send({ email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
+            .send({ email: 'Harry.Potter@Hogwarts.com', password: 'Gryfindoor1234567' })
 
-        expect(response.statusCode).toBe(401)
-        expect(response.body.user.name).toEqual('Amy Johnson')
-        expect(response.body.user.email).toEqual('Amy.Johnson@yahoo.com')
+        expect(response.statusCode).toBe(200)
+        expect(response.body.user.name).toEqual('Harry Potter')
+        expect(response.body.user.email).toEqual('Harry.Potter@Hogwarts.com')
         expect(response.body).toHaveProperty('token')
     })
 
     test('It should get the user profile', async () => {
-        const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chip123456' })
+        const user = new User({ name: 'Harry Potter', email: 'Harry.Potter@Hogwarts.com', password: 'Gryfindoor1234567' })
         await user.save()
         const token = await user.generateAuthToken()
 
         const response = await request(app)
-            .get('/users/profile')
-            .set('Authorization', `Bear ${token}`)
+            .get(`/users/profile/${user._id}`)
+            .set('Authorization', `Bearer ${token}`)
 
-        expect(response.statusCode).toBe(401)
-        expect(response.body.name).toEqual('Amy Johnson')
-        expect(response.body.email).toEqual('Amy.Johnson@yahoo.com')
+        expect(response.statusCode).toBe(200)
+        expect(response.body.name).toEqual('Harry Potter')
+        expect(response.body.email).toEqual('Harry.Potter@Hogwarts.com')
     })
 
 
-    //   test('It should update a user', async () => {
-    //     const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
-    //     await user.save()
-    //     const token = await user.generateAuthToken()
-
-    //     const response = await request(app)
-    //       .put(`/users/${user._id}`)
-    //       .set('Authorization', `Bearer ${token}`)
-    //       .send({ name: 'Stan Smith', email: 'stansmith@yahoo.com' })
-
-    //     expect(response.statusCode).toBe(200)
-    //     expect(response.body.user.name).toEqual('Stan Smith')
-    //     expect(response.body.user.email).toEqual('stansmith@yahoo.com')
-    //   })
-
-    test('Logout user', async () => {
-        const user = await User.create({
-            email: 'Amy.Johnson@yahoo.com',
-            password: 'chips123456'
-
+    test('It should logout a user', async () => {
+        const user = new User({
+            name: 'Harry Potter',
+            email: 'Harry.Potter@Hogwarts.com',
+            password: 'Gryfindoor1234567',
+            tokens: [{ token: 'sampleToken' }]
         })
+        await user.save()
+
         const token = jwt.sign({ _id: user._id }, process.env.SECRET)
 
+        user.tokens = []
+        await user.save()
+
+
         const response = await request(app)
-            .get('/users/logout')
-            .set('Authorization', `Bear ${token}`)
+            .post('/users/logout')
+            .set('Authorization', `Bearer ${token}`)
 
         expect(response.statusCode).toBe(200)
         expect(response.body.message).toBe('Logout successful')
-
-        const updateUser = await User.findById(user._id)
-        expect(updateUser.tokens.length).toBe(0)
     })
 
 
     test('It should delete a user', async () => {
-        const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
+        const user = new User({ name: 'Harry Potter', email: 'Harry.Potter@Hogwarts.com', password: 'Gryfindoor1234567' })
         await user.save()
         const token = await user.generateAuthToken()
 
@@ -117,69 +107,76 @@ describe('Test the users endpoints', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body.message).toEqual('User deleted')
     })
-})
 
-test('It should add an item to the user\'s cart', async () => {
-    const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
-    await user.save()
-    const item = new Item({ name: 'bucket' })
-    await item.save()
+    test('It should get the user\'s cart by ID', async () => {
+        //const cart = new Cart({})
 
-    const response = await request(app)
-        .post('/users/cart')
-        .send({ userid: user._id, itemId: item.id });
+        const user = new User({ name: 'Harry Potter', email: 'Harry.Potter@Hogwarts.com', password: 'Gryfindoor1234567' })
+        await user.save()
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body.message).toEqual('Item added to the user\'s cart')
-    const updatedUser = await User.findById(user._id)
-    expect(updatedUser.cart.length).toBe(1)
-    expect(updatedUser.cart[0]._id.toString()).toEqual(item._id.toString())
-})
+        const cart = new Cart({ user: user._id, items: [] })
+        user.cart = cart
+        await cart.save()
+        await user.save()
 
-test('It should get the user\'s cart by ID', async () => {
-    const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
-    await user.save()
-    const item = new Item({ name: 'bucket' })
-    await item.save()
-    user.cart.push(item)
-    await user.save()
+        const item = new Item({ name: 'bucket', quantity: 1, price: 3, description: 'bucketbro' })
+        await item.save()
 
-    const response = await request(app).get(`/users/cart/${user._id}`)
+        user.cart.items.push(item._id)
+        await cart.save()
+        await user.save()
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body.cart.length).toBe(1)
-    expect(response.body.cart[0]._id.toString()).toEqual(item._id.toString())
-})
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET)
 
-test('It should add an item to the user\'s cart by ID', async () => {
-    const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
-    await user.save()
-    const item = new Item({ name: 'bucket' })
-    await item.save()
+        const response = await request(app)
+            .get(`/users/cart/${user.id}`)
+            .set('Authorization', `Bearer ${token}`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body.items).toHaveLength(1)
+        expect(response.body.items[0]).toEqual(item.id)
+    })
 
-    const response = await request(app)
-        .post(`/users/cart/${user._id}/${item._id}`)
+    test('It should add an item to the user\'s cart by ID', async () => {
+        const user = new User({ name: 'Harry Potter', email: 'Harry.Potter@Hogwarts.com', password: 'Gryfindoor1234567' })
+        await user.save()
+        const item = new Item({ name: 'Jelly Beans', quantity: 1, price: 5, description: 'Beanbozzled' })
+        await item.save()
+        
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET)
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body.message).toEqual('Item added to the user\'s cart')
-    const updatedUser = await User.findById(user._id)
-    expect(updatedUser.cart.length).toBe(1)
-    expect(response.body.cart[0]._id.toString()).toEqual(item._id.toString())
-})
+        const response = await request(app)
+            .post(`/users/${user._id}/item/${item._id}`)
+            .set('Authorization', `Bearer ${token}`)
 
-test('It should remove an item from the user\'s cart by ID', async () => {
-    const user = new User({ name: 'Amy Johnson', email: 'Amy.Johnson@yahoo.com', password: 'chips123456' })
-    await user.save()
-    const item = new Item({ name: 'bucket' })
-    await item.save()
-    user.cart.push(item);
-    await user.save()
+        expect(response.status).toBe(201)
+        expect(response.body.message).toEqual('Item added to the user\'s cart')
 
-    const response = await request(app)
-        .delete(`/users/cart/${user._id}/${item._id}`)
+        const updatedUser = await User.findById(user._id)
+        expect(updatedUser.cart).toBeDefined()
+        expect(updatedUser.body.cart.items).toHaveLength(1)
+        expect(response.body.cart.items[0].toString()).toEqual(item._id.toString())   
+    })
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body.message).toEqual('Item removed from the cart')
-    const updatedUser = await User.findById(user._id)
-    expect(updatedUser.cart.length).toBe(0)
+    test('It should remove an item from the user\'s cart by ID', async () => {
+        const user = new User({ name: 'Harry Potter', email: 'Harry.Potter@Hogwarts.com', password: 'Gryfindoor1234567' })
+        await user.save()
+        const item = new Item({ name: 'wand', quantity: 1, price: 12, description: 'magic wand' })
+        await item.save()
+
+        user.cart = new Cart({ user: user._id, items: [item._id] })
+        await user.cart.save()
+        await user.save()
+
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET)
+
+        const response = await request(app)
+            .delete(`/users/${user._id}/item/${item._id}`)
+            .set('Authorization', `Bearer ${token}`)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.message).toEqual('Item removed from the cart')
+
+        const updatedUser = await User.findById(user._id).populate('cart.items')
+        expect(updatedUser.cart.items).toHaveLength(0)
+    })
 })

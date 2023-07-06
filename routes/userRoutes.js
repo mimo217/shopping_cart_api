@@ -5,12 +5,11 @@ const userController = require('../controllers/userController')
 
 router.post('/register', userController.registerUser)
 router.post('/login', userController.loginUser)
-router.get('/profile/:id', userController.profileUser)
-router.get('/logout', userController.auth, userController.logoutUser)
+router.get('/profile/:id', userController.auth,userController.profileUser)
+router.post('/logout', userController.auth, userController.logoutUser)
 router.delete('/:id', userController.auth, userController.deleteUser)
-router.post('/cart', userController.userCart)
-router.get('/cart/:id', userController.userCartId)
-router.put('/:userid/item/:itemid/', userController.userCartAddItem)
-router.delete('/:userid/item/:itemid/', userController.userCartRemoveItem)
+router.get('/cart/:userid', userController.auth, userController.userCartId)
+router.post('/:userid/item/:itemid/', userController.auth, userController.userCartAddItem)
+router.delete('/:userid/item/:itemid/', userController.auth, userController.userCartRemoveItem)
 
 module.exports = router
