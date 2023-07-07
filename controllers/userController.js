@@ -4,7 +4,7 @@ const Item = require('../models/item')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const { use } = require('../app')
+const app = require('../app')
 
 exports.auth = async (req, res, next) => {
     try {

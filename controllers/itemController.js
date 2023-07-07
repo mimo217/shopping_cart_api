@@ -12,6 +12,16 @@ exports.itemList = async (req, res) => {
     }
 }
 
+exports.createItem = async (req, res) => {
+    try {
+        const item = new Item(req.body)
+        await item.save()
+        res.json(item)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
 exports.itemId = async (req, res) => {
     try {
         const item = await Item.findById(req.params.id)
@@ -25,12 +35,41 @@ exports.itemId = async (req, res) => {
     }
 }
 
-exports.item = async (req, res) => {
+exports.updateItem = async ( req, res) => {
     try {
-        const item = new Item(req.body)
+        const item = await Item.findById(req.params.id)
+        if (!item) {
+            return res.status(404).json({ message: 'Item not found' })
+        }
+        item.name = req.body.name || item.name
+        item.description = req.body.description || item.description
+        item.price = req.body.price || item.price
+        item.quantity = req.body.quantity || item.quantity
+
         await item.save()
+
         res.json(item)
     } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+exports.deleteItem = async ( req, res) => {
+    try {
+        const item = await Item.findById(req.params.id)
+        if (!item) {
+            console.log(req.params.id)
+            return res.status(404).json({ message: 'Item not found' })
+        }
+        
+        await Item.deleteOne({ _id: item._id })
+
+        console.log(item)
+        res.status(200).json({ message: 'Item deleted successfully', item: item })
+
+    } catch (error) {
+        console.log(error)
+        
         res.status(400).json({ message: error.message })
     }
 }
