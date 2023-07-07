@@ -4,6 +4,7 @@ const Item = require('../models/item')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const { use } = require('../app')
 
 exports.auth = async (req, res, next) => {
     try {
@@ -37,7 +38,6 @@ exports.registerUser = async (req, res) => {
         const token = await user.generateAuthToken(process.env.SECRET)
         res.status(200).json({ user: { name: user.name, email: user.email }, token, message: 'User registered successfully' })
     } catch (error) {
-        console.error(error)
         res.status(400).json({ message: 'Unable to register the user', user: null })
     }
 }
@@ -91,7 +91,7 @@ exports.deleteUser = async (req, res) => {
 exports.userCartId = async (req, res) => {
     try {
         const userid = req.params.userid
-        const user = await User.findById(userid).populate('cart').populate('cart.items')
+        const user = await User.findById(userid).populate({ path: 'cart', populate: { path: 'items', model: 'Item'} })
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
         }
@@ -104,9 +104,8 @@ exports.userCartId = async (req, res) => {
 
 exports.userCartAddItem = async (req, res) => {
     try {
-        const userid = req.params.userid
-        const itemid = req.params.itemid
-        const user = await User.findById(userid).populate('cart')
+        const { userid, itemid } = req.params
+        const user = await User.findById(userid).populate({ path: 'cart', populate: { path: 'items', model: 'Item'} })
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
         }
@@ -116,13 +115,25 @@ exports.userCartAddItem = async (req, res) => {
         }
 
         if (!user.cart) {
-            user.cart = { items: [] }
+            const cart = new Cart({ user: user.id, items: [] })
+            user.cart = cart
+            await cart.save()
+            await user.save()
         }
 
-        user.cart.items.push(itemid)
+
+        const itemIndex = user.cart.items.findIndex((items) => items._id.toString() === itemid)
+        if (itemIndex !== -1) {
+            user.cart.items[itemIndex].quantity++
+            await user.cart.save()
+            await user.save()
+            return res.status(201).json({ message: "adding item to cart", cart: user.cart })
+        }
+        user.cart.items.push(item)
         await user.cart.save()
         await user.save()
 
+        await user.cart.populate('items')
 
         res.status(201).json({ message: 'Item added to the user\'s cart', cart: user.cart })
     } catch (error) {
@@ -133,23 +144,32 @@ exports.userCartAddItem = async (req, res) => {
 exports.userCartRemoveItem = async (req, res) => {
     try {
         const { userid, itemid } = req.params
-        const user = await User.findById(userid).populate('cart.items')
+        const user = await User.findById(userid).populate({ path: 'cart', populate: { path: 'items', model: 'Item'} })
+
         if (!user) {
             return res.status(400).json({ message: 'User not found' })
         }
-        // if (!user.cart || !user.cart.items || user.cart.items.length === 0) {
-        //     return res.status(400).json({ message: 'Cart is empty' })
-        // }
-        const itemIndex = user.cart?.items?.findIndex((item) => item._id.toString() === itemid)
+
+        if (!user.cart || !user.cart.items) {
+            return res.status(400).json({ message: 'Cart is empty' })
+        }
+        
+        const itemIndex = user.cart.items.findIndex((item) => item._id.toString() === itemid)
+
         if (itemIndex === -1) {
             return res.status(400).json({ message: 'Item not found in the cart' })
         }
 
-        user.cart.items.splice(itemIndex, 1)
+        user.cart.items[itemIndex].quantity--
+        if (user.cart.items[itemIndex].quantity === 0) {
+            user.cart.items.splice(itemIndex, 1)
+        }
         await user.cart.save()
         await user.save()
 
-        res.status(200).json({ message: 'Item removed from the cart' })
+        const updatedUser = await User.findById(userid).populate({ path: 'cart', populate: { path: 'items', model: 'Item'} })
+        
+        res.status(200).json({ message: 'Item removed from the cart', cart: updatedUser.cart })
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
