@@ -6,9 +6,10 @@ To install the Shopping Cart API on your local machine, following these steps:
 <ol>
 ****include opening terminal instructions
     <li>Open a terminal window</li>
+    <li>Make a directory for the application:</li>
     <li>Navigate to the directory where you want to install the Shopping Cart API application</li>
     <li>Clone the Github repository to your local machine using the following command:
-    <br> `git clone
+    <br> `git clone`
     <li>Install Node.js on your local machine. You can download the Node.js installer from the official Node.js website: https://nodejs.org/en/download/</li>
     <li>Install MongoDB on your local machine. You can download the MongoDB installer from the official MongoDB website: https://www.mongodb.com/try/download/community</li>
     <li>Install Postman on your local machine. You can download the Postman installer from the official Postman website: https://www.postman.com/downloads/</li>
@@ -23,7 +24,8 @@ To install the Shopping Cart API on your local machine, following these steps:
   <br>`cd shopping_cart_api`
   </li>
   <li>Install the dependencies by running the following command:
-  <br> `npm install`
+  <br> `npm install express mongoose dotenv bcrypt jsonwebtoken morgan`
+  <br> `npm i --save-dev jest supertest mongodb-memory-server artillery@1.7.9`
   </li>
   <h2>Configuration</h2>
   Before running the application, you need to perform some configuration steps:
