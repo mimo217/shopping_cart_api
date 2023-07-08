@@ -80,8 +80,8 @@ To install the Shopping Cart API on your local machine, following these steps:
   To run the tests for the Shopping Cart API, follow these steps:
   <ol>
   <li> Ensure that the MongoDB service is running on your local machine.</li>
-  <li> Run the following command:</li>
-  <br>`npm run test`
+  <li> Open a seperate terminal, run the following command:</li>
+  `npm run test`
   <li>This will execute the test scripts defined in the item.js and user.test.js files and display the test results.</li>
  </ol>
 
@@ -90,6 +90,11 @@ To start the application without development mode, follow these steps:</h2>
 <ol>
 <li>Ensure that the MongoDB service is running on your local machine</li>
 <li>Run the following command:</li>
-<br> `npm start`
-<li>This will start the application on the specified port (default: 3000) without development mode.<li>
+`npm start`
+<li>This will start the application on the specified port (default: 3000) without development mode.
 </ol>
+
+<h2>Wireframe</h2>
+<a href="https://imgur.com/6lVoFiN"><img src="https://i.imgur.com/6lVoFiN.png" title="source: imgur.com" /></a>
+
+Trello board can be found<a href="https://trello.com/b/Eb12CHDz/shopping-cart-api">here</a>

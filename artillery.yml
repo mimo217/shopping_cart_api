@@ -1,96 +1,13 @@
 config:
   target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 20
 scenarios:
-  - name: "Get Item List"
-    flow:
+  - flow:
       - post:
-          url: "/items"
-
-  - name: "Create Item"
-    flow:
-      - post:
-          url: "/items"
+          url: "/users"
           json:
-            name: "Test Item"
-            description: "This is a test item"
-            price: 10
-            quantity: 5
-
-  - name: "Get Item by ID"
-    flow:
-      - get:
-          url: "/items/{{ ${item._id} }}"
-
-  - name: "Update Item"
-    flow:
-      - put:
-          url: "/items/"
-          json:
-            name: "Updated Item"
-            description: "This item has been updated"
-            price: 15
-            quantity: 3
-
-  - name: "Delete Item"
-    flow:
-      - delete:
-          url: "/items/{{ ${item._id} }}"
-
-  - name: "User Registration"
-    flow:
-      - post:
-          url: "/users/register"
-          json:
-            name: "Test User"
+            name: "Test"
             email: "test@example.com"
-            password: "test123"
-
-  - name: "User Login"
-    flow:
-      - post:
-          url: "/users/login"
-          json:
-            email: "test@example.com"
-            password: "test123"
-
-  - name: "Get User Profile"
-    flow:
-      - get:
-          url: "/users/profile/{{ ${item._id} }}"
-          headers:
-            Authorization: "Bearer {{ $randomUser().token }}"
-
-  - name: "User Logout"
-    flow:
-      - post:
-          url: "/users/logout"
-          headers:
-            Authorization: "Bearer {{ $randomUser().token }}"
-
-  - name: "Delete User"
-    flow:
-      - delete:
-          url: "/users/{{ $randomUser().id }}"
-          headers:
-            Authorization: "Bearer {{ $randomUser().token }}"
-
-  - name: "Get User's Cart"
-    flow:
-      - get:
-          url: "/users/cart/{{ $randomUser().id }}"
-          headers:
-            Authorization: "Bearer {{ $randomUser().token }}"
-
-  - name: "Add Item to User's Cart"
-    flow:
-      - post:
-          url: "/users/{{ ${item._id} }}"/item/{{ ${item._id} }}"
-          headers:
-            Authorization: "Bearer {{ $randomUser().token }}"
-
-  - name: "Remove Item from User's Cart"
-    flow:
-      - delete:
-          url: "/users/{{ $randomUser().id }}/item/{{ $randomUserCartItem().id }}"
-          headers:
-            Authorization: "Bearer {{ Bearer ${token} }}"
+            password: "Password123"
