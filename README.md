@@ -4,7 +4,6 @@ This README provides instructions on how to install, configure and use the Shopp
 <h2>Installation</h2>
 To install the Shopping Cart API on your local machine, following these steps:
 <ol>
-****include opening terminal instructions
     <li>Open a terminal window</li>
     <li>Make a directory for the application:</li>
     <li>Navigate to the directory where you want to install the Shopping Cart API application</li>
@@ -31,8 +30,10 @@ To install the Shopping Cart API on your local machine, following these steps:
   <br> `npm install express mongoose dotenv bcrypt jsonwebtoken morgan`
   <br> `npm i --save-dev jest supertest mongodb-memory-server artillery@1.7.9`
   </li>
+  </ol>
   <h2>Configuration</h2>
   Before running the application, you need to perform some configuration steps:
+  <ul>
   <li>Create a `env` file in the root directory of the project
   </li>
   <li>Set the following environment variables in the `.env` files:
@@ -40,37 +41,60 @@ To install the Shopping Cart API on your local machine, following these steps:
   <br>SECRET=<your_secret_key>
   <br>Replace `<your_mongodb_connection_string>` with the connection string for your MongoDB database, and `<your_secret_key>` with a secret key of your choice.
   </li>
+  </ol>
+
   <h2>Starting the Application in Development Mode</h2>
   To start the application in development mode, follow these steps:
+  <ol>
   <li>Ensure that the MongoDB service is running on your local machine.</li>
   <li>Run the following command:
   <br>`npm run dev`
-  <li>
-  This will start the application ont eh specified port(default:3000) in development mode.
+  <li>This will start the application on the specified port(3000) in development mode.</li>
+  </ol>
+
   <h2>Making API Request with Postman</h2>
   To make API requests to the Shopping Cart API using Postman, follow these steps:
+  <ol>
   <li>Open Postman</li>
   <li>Set the HTTP(GET, POST, DELETE, etc.) and enter the API endpoint URL. The available endpoints are defined in the `itemRoutes.js` and `userRoutes.js` files.
-  <br>Example endpoints:
-  <ul>Get item list: `Get /items`</ul>
-  <ul>Get item by ID: `Get /items/:id`</ul>
-  <ul>Register a new user: `POST / users/register`</ul>
-  <ul>Login a user: `POST /users/login`</ul>
-  <ul>Get user profile: `GET /user/profile/:id`</ul>
-  <ul>Logout a user: `POST /users/logout</ul>
-  <ul>Delete a user: `Delete /users/:id`</ul>
-  <ul>Get user's cart by ID: `GET /users/cart/:userid`</ul>
-  <ul>Add an item to user's cart: `POST /users/:userid/item/:itemid`
-  <ul>Remove an item from user's cart: `DELETE /users/:userid/item/:itemid`
-  <li>Set the required header, `Authorization`. The `Authorizaton` header should have the value `Bear <token>`, where `<token>` is the JWT toekn obtained during user authentication.</li>
-  <li>Send the request and view the response</li>
+  </ol>
+  <br>Endpoints:
+  <ul>
+
+  <li>Register a new user: `POST / users/register`</li>
+  <li>Login a user: `POST /users/login`</li>
+  <li>Get user profile: `GET /user/profile/:id`</li>
+  <li>Logout a user: `POST /users/logout</li>
+  <li>Delete a user: `Delete /users/:id`</li>
+  <li>Get user's cart by ID: `GET /users/cart/:userid`</li>
+  <li>Add an item to user's cart: `POST /users/:userid/item/:itemid`</li>
+  <li>Remove an item from user's cart: `DELETE /users/:userid/item/:itemid`</li>
+  <li>Get item list: `Get /items`</li>
+  <li>Get item by ID: `Get /items/:id`</li>
+  <li>Create a new item: POST /items`</li>
+  <li>Update an item: `PUT /items/:id`</li>
+  <li>Delete an item: DELETE /items/:id</li>
+Replace :id, :userid, and :itemid with the appropriate values for your request.
+
+  <li>Set the required header, `Authorization`. The `Authorizaton` header should have the value `Bear <token>`, where `<token>` is the JWT token obtained during user authentication.This header is necessary for authenticated requests. You can include the header by clicking on the "Headers" tab in Postman, adding a new header with "Authorization" as the key, and Bearer YOUR_JWT_TOKEN as the value. </li>
+  <li>Send the request by clicking the "Send" button. Postman will execute the request and display the response in the "Response" section below and . You can view the response body, headers, and status code in this section.</li>
+
+  <li>Be sure to replace the placeholder values (:id, :userid, :itemid, and YOUR_JWT_TOKEN) with the actual values for your specific request.</li>
 
   <h2>Running Tests</h2>
   To run the tests for the Shopping Cart API, follow these steps:
+  <ol>
   <li> Ensure that the MongoDB service is running on your local machine.</li>
   <li> Run the following command:
   <br> `npm run test`
   <li>This will execute the test scripts defined in the item.js and user.test.js files and display the test results.</li>
+ </ol>
 
-  <br>
+<h2>Starting the Application without Development Mode
+To start the application without development mode, follow these steps:</h2>
+<ol>
+<li>Ensure that the MongoDB service is running on your local machine</li>
+<li>Run the following command:</li>
+<br> `npm start`
+This will start the application on the specified port (default: 3000) without development mode.
 </ol>

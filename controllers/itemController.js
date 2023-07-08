@@ -68,8 +68,6 @@ exports.deleteItem = async ( req, res) => {
         res.status(200).json({ message: 'Item deleted successfully', item: item })
 
     } catch (error) {
-        console.log(error)
-        
         res.status(400).json({ message: error.message })
     }
 }
