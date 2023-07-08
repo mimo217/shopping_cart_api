@@ -6,7 +6,7 @@ To install the Shopping Cart API on your local machine, following these steps:
 <ol>
     <li>Open a terminal window</li>
     <li>Make a directory for the application using the following command:</li>
-    <br>`mkdir shopping_cart_api_clone`
+    `mkdir shopping_cart_api_clone`
     <li>Navigate to the directory where you want to install the Shopping Cart API application</li>
     <li>Clone the Github repository to your local machine using the following command:
     <br> `git clone git@github.com:mimo217/unit2_project_shoppingcart_api.git`
@@ -17,9 +17,11 @@ To install the Shopping Cart API on your local machine, following these steps:
   <li>Navigate to the project directory:
   <br>`cd unit2_project_shoppingcart_api`
   </li>
-  <li>Install the dependencies by running the following command:
-  <br> `npm install express mongoose dotenv bcrypt jsonwebtoken morgan`
-  <br> `npm i --save-dev jest supertest mongodb-memory-server artillery@1.7.9`
+  <li>Install the dependencies by running the following command:</li>
+  <br> `npm install`
+  <li>Once installation is complete, open the project in VS code by running the following command:</li>
+  <br>code .
+ 
   </li>
   </ol>
   <h2>Configuration</h2>
@@ -68,7 +70,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   </ul>
 <br>Replace :id, :userid, and :itemid with the appropriate values for your request.
 
-  <li>Set the required header, `Authorization`. The `Authorizaton` header should have the value `Bear <token>`, where `<token>` is the JWT token obtained during user authentication.This header is necessary for authenticated requests. You can include the header by clicking on the "Headers" tab in Postman, adding a new header with "Authorization" as the key, and Bearer YOUR_JWT_TOKEN as the value. </li>
+  <li>Set the required header, `Authorization`. The `Authorizaton` header should have the value `Bear token`, where `token` is the JWT token obtained during user authentication.This header is necessary for authenticated requests. You can include the header by clicking on the "Headers" tab in Postman, adding a new header with "Authorization" as the key, and `Bearer token` as the value. </li>
   <li>Send the request by clicking the "Send" button. Postman will execute the request and display the response in the "Response" section below and . You can view the response body, headers, and status code in this section.</li>
 
   <br>Be sure to replace the placeholder values (:id, :userid, :itemid, and YOUR_JWT_TOKEN) with the actual values for your specific request.
