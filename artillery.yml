@@ -1,13 +1,96 @@
 config:
   target: 'http://localhost:3000'
-  phases:
-    - duration: 60
-      arrivalRate: 20
 scenarios:
-  - flow:
+ - name: "Get Item List"
+   flow:
+       - post:
+          url: "/items"
+
+ - name: "Create Item"
+   flow:
       - post:
-          url: "/users"
+          url: "/items"
           json:
-            name: "Test"
+            name: "Test Item"
+            description: "This is a test item"
+            price: 10
+            quantity: 5
+          
+  - name: "Get Item by ID"
+    flow:
+      - get:
+          url: "/items/{{ $randomItem().id }}"
+          
+  -  name: "Update Item"
+    flow:
+      - put:
+          url: "/items/{{ $randomItem().id }}"
+          json:
+            name: "Updated Item"
+            description: "This item has been updated"
+            price: 15
+            quantity: 3
+
+  - name: "Delete Item"
+    flow:
+      - delete:
+          url: "/items/{{ $randomItem().id }}"
+
+  - name: "User Registration"
+    flow:
+      - post:
+          url: "/users/register"
+          json:
+            name: "Test User"
             email: "test@example.com"
-            password: "Password123"
+            password: "test123"
+
+  - name: "User Login"
+    flow:
+      - post:
+          url: "/users/login"
+          json:
+            email: "test@example.com"
+            password: "test123"
+
+  - name: "Get User Profile"
+    flow:
+      - get:
+          url: "/users/profile/{{ $randomUser().id }}"
+          headers:
+            Authorization: "Bearer {{ $randomUser().token }}"
+
+  - name: "User Logout"
+    flow:
+      - post:
+          url: "/users/logout"
+          headers:
+            Authorization: "Bearer {{ $randomUser().token }}"
+
+  - name: "Delete User"
+    flow:
+      - delete:
+          url: "/users/{{ $randomUser().id }}"
+          headers:
+            Authorization: "Bearer {{ $randomUser().token }}"
+
+  - name: "Get User's Cart"
+    flow:
+      - get:
+          url: "/users/cart/{{ $randomUser().id }}"
+          headers:
+            Authorization: "Bearer {{ $randomUser().token }}"
+
+  - name: "Add Item to User's Cart"
+    flow:
+      - post:
+          url: "/users/{{ $randomUser().id }}/item/{{ $randomItem().id }}"
+          headers:
+            Authorization: "Bearer {{ $randomUser().token }}"
+
+  - name: "Remove Item from User's Cart"
+    flow:
+      - delete:
+          url: "/users/{{ $randomUser().id }}/item/{{ $randomUserCartItem().id }}"
+          headers:
+            Authorization: "Bearer {{ $randomUser().token }}"

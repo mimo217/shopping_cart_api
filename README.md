@@ -36,8 +36,8 @@ To install the Shopping Cart API on your local machine, following these steps:
   <li>Create a `env` file in the root directory of the project
   </li>
   <li>Set the following environment variables in the `.env` files:
-  <br>`MONGO_URI=<your_mongodb_connection_string>
-  SECRET=<your_secret_key>
+  <br>`MONGO_URI=mongodb://<your_mongodb_connection_string>
+  <br>SECRET=<your_secret_key>
   <br>Replace `<your_mongodb_connection_string>` with the connection string for your MongoDB database, and `<your_secret_key>` with a secret key of your choice.
   </li>
   <h2>Starting the Application in Development Mode</h2>
