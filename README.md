@@ -33,12 +33,12 @@ To install the Shopping Cart API on your local machine, following these steps:
   </ol>
   <h2>Configuration</h2>
   Before running the application, you need to perform some configuration steps:
-  <ul>
+  <ol>
   <li>Create a `env` file in the root directory of the project
   </li>
   <li>Set the following environment variables in the `.env` files:
-  <br>`MONGO_URI=mongodb://<your_mongodb_connection_string>
-  <br>SECRET=<your_secret_key>
+  <br>`MONGO_URI=mongodb://`<your_mongodb_connection_string>`
+  <br>SECRET=`<your_secret_key>`
   <br>Replace `<your_mongodb_connection_string>` with the connection string for your MongoDB database, and `<your_secret_key>` with a secret key of your choice.
   </li>
   </ol>
@@ -47,7 +47,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   To start the application in development mode, follow these steps:
   <ol>
   <li>Ensure that the MongoDB service is running on your local machine.</li>
-  <li>Run the following command:
+  <li>Run the following command:</li>
   <br>`npm run dev`
   <li>This will start the application on the specified port(3000) in development mode.</li>
   </ol>
@@ -56,7 +56,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   To make API requests to the Shopping Cart API using Postman, follow these steps:
   <ol>
   <li>Open Postman</li>
-  <li>Set the HTTP(GET, POST, DELETE, etc.) and enter the API endpoint URL. The available endpoints are defined in the `itemRoutes.js` and `userRoutes.js` files.
+  <li>Set the HTTP(GET, POST, DELETE, etc.) and enter the API endpoint URL. The available endpoints are defined in the `itemRoutes.js` and `userRoutes.js` files.</li>
   </ol>
   <br>Endpoints:
   <ul>
@@ -85,7 +85,7 @@ Replace :id, :userid, and :itemid with the appropriate values for your request.
   To run the tests for the Shopping Cart API, follow these steps:
   <ol>
   <li> Ensure that the MongoDB service is running on your local machine.</li>
-  <li> Run the following command:
+  <li> Run the following command:</li>
   <br> `npm run test`
   <li>This will execute the test scripts defined in the item.js and user.test.js files and display the test results.</li>
  </ol>
@@ -96,5 +96,5 @@ To start the application without development mode, follow these steps:</h2>
 <li>Ensure that the MongoDB service is running on your local machine</li>
 <li>Run the following command:</li>
 <br> `npm start`
-This will start the application on the specified port (default: 3000) without development mode.
+<li>This will start the application on the specified port (default: 3000) without development mode.
 </ol>
