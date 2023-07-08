@@ -57,7 +57,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   <ol>
   <li>Open Postman</li>
   <li>Set the HTTP(GET, POST, DELETE, etc.) and enter the API endpoint URL. The available endpoints are defined in the `itemRoutes.js` and `userRoutes.js` files.</li>
-  </ol>
+  
   <br>Endpoints:
   <ul>
 
@@ -75,12 +75,12 @@ To install the Shopping Cart API on your local machine, following these steps:
   <li>Update an item: `PUT /items/:id`</li>
   <li>Delete an item: DELETE /items/:id</li>
   </ul>
-Replace :id, :userid, and :itemid with the appropriate values for your request.
+<br>Replace :id, :userid, and :itemid with the appropriate values for your request.
 
   <li>Set the required header, `Authorization`. The `Authorizaton` header should have the value `Bear <token>`, where `<token>` is the JWT token obtained during user authentication.This header is necessary for authenticated requests. You can include the header by clicking on the "Headers" tab in Postman, adding a new header with "Authorization" as the key, and Bearer YOUR_JWT_TOKEN as the value. </li>
   <li>Send the request by clicking the "Send" button. Postman will execute the request and display the response in the "Response" section below and . You can view the response body, headers, and status code in this section.</li>
 
-  <li>Be sure to replace the placeholder values (:id, :userid, :itemid, and YOUR_JWT_TOKEN) with the actual values for your specific request.</li>
+  <br>Be sure to replace the placeholder values (:id, :userid, :itemid, and YOUR_JWT_TOKEN) with the actual values for your specific request.
   </ol>
 
   <h2>Running Tests</h2>
