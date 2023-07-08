@@ -18,10 +18,10 @@ To install the Shopping Cart API on your local machine, following these steps:
   <br>`cd unit2_project_shoppingcart_api`
   </li>
   <li>Install the dependencies by running the following command:</li>
-  <br> `npm install`
+  `npm install`
   <li>Once installation is complete, open the project in VS code by running the following command:</li>
-  <br>code .
- 
+  `code .`
+
   </li>
   </ol>
   <h2>Configuration</h2>
@@ -41,7 +41,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   <ol>
   <li>Ensure that the MongoDB service is running on your local machine.</li>
   <li>Run the following command:</li>
-  <br>`npm run dev`
+  `npm run dev`
   <li>This will start the application on the specified port(3000) in development mode.</li>
   </ol>
 
@@ -68,7 +68,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   <li>Update an item: `PUT /items/:id`</li>
   <li>Delete an item: DELETE /items/:id</li>
   </ul>
-<br>Replace :id, :userid, and :itemid with the appropriate values for your request.
+Replace :id, :userid, and :itemid with the appropriate values for your request.
 
   <li>Set the required header, `Authorization`. The `Authorizaton` header should have the value `Bear token`, where `token` is the JWT token obtained during user authentication.This header is necessary for authenticated requests. You can include the header by clicking on the "Headers" tab in Postman, adding a new header with "Authorization" as the key, and `Bearer token` as the value. </li>
   <li>Send the request by clicking the "Send" button. Postman will execute the request and display the response in the "Response" section below and . You can view the response body, headers, and status code in this section.</li>
@@ -97,4 +97,4 @@ To start the application without development mode, follow these steps:</h2>
 <h2>Wireframe</h2>
 <a href="https://imgur.com/6lVoFiN"><img src="https://i.imgur.com/6lVoFiN.png" title="source: imgur.com" /></a>
 
-Trello board can be found<a href="https://trello.com/b/Eb12CHDz/shopping-cart-api">here</a>
+Trello board can be found <a href="https://trello.com/b/Eb12CHDz/shopping-cart-api">here</a>
