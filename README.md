@@ -74,12 +74,14 @@ To install the Shopping Cart API on your local machine, following these steps:
   <li>Create a new item: POST /items`</li>
   <li>Update an item: `PUT /items/:id`</li>
   <li>Delete an item: DELETE /items/:id</li>
+  </ul>
 Replace :id, :userid, and :itemid with the appropriate values for your request.
 
   <li>Set the required header, `Authorization`. The `Authorizaton` header should have the value `Bear <token>`, where `<token>` is the JWT token obtained during user authentication.This header is necessary for authenticated requests. You can include the header by clicking on the "Headers" tab in Postman, adding a new header with "Authorization" as the key, and Bearer YOUR_JWT_TOKEN as the value. </li>
   <li>Send the request by clicking the "Send" button. Postman will execute the request and display the response in the "Response" section below and . You can view the response body, headers, and status code in this section.</li>
 
   <li>Be sure to replace the placeholder values (:id, :userid, :itemid, and YOUR_JWT_TOKEN) with the actual values for your specific request.</li>
+  </ol>
 
   <h2>Running Tests</h2>
   To run the tests for the Shopping Cart API, follow these steps:
@@ -90,11 +92,11 @@ Replace :id, :userid, and :itemid with the appropriate values for your request.
   <li>This will execute the test scripts defined in the item.js and user.test.js files and display the test results.</li>
  </ol>
 
-<h2>Starting the Application without Development Mode
+<h2>Starting the Application without Development Mode</h2>
 To start the application without development mode, follow these steps:</h2>
 <ol>
 <li>Ensure that the MongoDB service is running on your local machine</li>
 <li>Run the following command:</li>
 <br> `npm start`
-<li>This will start the application on the specified port (default: 3000) without development mode.
+<li>This will start the application on the specified port (default: 3000) without development mode.<li>
 </ol>

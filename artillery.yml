@@ -1,13 +1,13 @@
 config:
   target: 'http://localhost:3000'
 scenarios:
- - name: "Get Item List"
-   flow:
-       - post:
+  - name: "Get Item List"
+    flow:
+      - post:
           url: "/items"
 
- - name: "Create Item"
-   flow:
+  - name: "Create Item"
+    flow:
       - post:
           url: "/items"
           json:
@@ -15,16 +15,16 @@ scenarios:
             description: "This is a test item"
             price: 10
             quantity: 5
-          
+
   - name: "Get Item by ID"
     flow:
       - get:
-          url: "/items/{{ $randomItem().id }}"
-          
-  -  name: "Update Item"
+          url: "/items/{{ ${item._id} }}"
+
+  - name: "Update Item"
     flow:
       - put:
-          url: "/items/{{ $randomItem().id }}"
+          url: "/items/"
           json:
             name: "Updated Item"
             description: "This item has been updated"
@@ -34,7 +34,7 @@ scenarios:
   - name: "Delete Item"
     flow:
       - delete:
-          url: "/items/{{ $randomItem().id }}"
+          url: "/items/{{ ${item._id} }}"
 
   - name: "User Registration"
     flow:
@@ -56,7 +56,7 @@ scenarios:
   - name: "Get User Profile"
     flow:
       - get:
-          url: "/users/profile/{{ $randomUser().id }}"
+          url: "/users/profile/{{ ${item._id} }}"
           headers:
             Authorization: "Bearer {{ $randomUser().token }}"
 
@@ -84,7 +84,7 @@ scenarios:
   - name: "Add Item to User's Cart"
     flow:
       - post:
-          url: "/users/{{ $randomUser().id }}/item/{{ $randomItem().id }}"
+          url: "/users/{{ ${item._id} }}"/item/{{ ${item._id} }}"
           headers:
             Authorization: "Bearer {{ $randomUser().token }}"
 
@@ -93,4 +93,4 @@ scenarios:
       - delete:
           url: "/users/{{ $randomUser().id }}/item/{{ $randomUserCartItem().id }}"
           headers:
-            Authorization: "Bearer {{ $randomUser().token }}"
+            Authorization: "Bearer {{ Bearer ${token} }}"
