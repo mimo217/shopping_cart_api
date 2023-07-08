@@ -57,7 +57,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   <ol>
   <li>Open Postman</li>
   <li>Set the HTTP(GET, POST, DELETE, etc.) and enter the API endpoint URL. The available endpoints are defined in the `itemRoutes.js` and `userRoutes.js` files.</li>
-  
+
   <br>Endpoints:
   <ul>
 
@@ -88,7 +88,7 @@ To install the Shopping Cart API on your local machine, following these steps:
   <ol>
   <li> Ensure that the MongoDB service is running on your local machine.</li>
   <li> Run the following command:</li>
-  <br> `npm run test`
+  <br>`npm run test`
   <li>This will execute the test scripts defined in the item.js and user.test.js files and display the test results.</li>
  </ol>
 
