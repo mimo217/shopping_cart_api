@@ -5,26 +5,17 @@ This README provides instructions on how to install, configure and use the Shopp
 To install the Shopping Cart API on your local machine, following these steps:
 <ol>
     <li>Open a terminal window</li>
-    <li>Make a directory for the application:</li>
+    <li>Make a directory for the application using the following command:</li>
+    <br>`mkdir shopping_cart_api_clone`
     <li>Navigate to the directory where you want to install the Shopping Cart API application</li>
     <li>Clone the Github repository to your local machine using the following command:
-<<<<<<< HEAD
-    <br> `git clone`
-=======
-    <br> `gh repo clone mimo217/unit2_project_shoppingcart_api`
->>>>>>> 05ae7db9fdad3b1caf6ad131729de34e4af90066
+    <br> `git clone git@github.com:mimo217/unit2_project_shoppingcart_api.git`
     <li>Install Node.js on your local machine. You can download the Node.js installer from the official Node.js website: https://nodejs.org/en/download/</li>
     <li>Install MongoDB on your local machine. You can download the MongoDB installer from the official MongoDB website: https://www.mongodb.com/try/download/community</li>
     <li>Install Postman on your local machine. You can download the Postman installer from the official Postman website: https://www.postman.com/downloads/</li>
     <li>Install Git on your local machine. You can download the Git installer from the official Git website: https://git-scm.com/downloads</li>
-    <li>Open a terminal window</li>
-    <li>Navigate to the directory where you want to install the Shopping Cart API application</li>
-
-  <li>Clone the Github repository to your local machine using the following command:
-  <br> `git clone https://github.com/mimo217/unit2_project_shoppingcart_api.git`
-  </li>
   <li>Navigate to the project directory:
-  <br>`cd shopping_cart_api`
+  <br>`cd unit2_project_shoppingcart_api`
   </li>
   <li>Install the dependencies by running the following command:
   <br> `npm install express mongoose dotenv bcrypt jsonwebtoken morgan`
@@ -37,9 +28,9 @@ To install the Shopping Cart API on your local machine, following these steps:
   <li>Create a `env` file in the root directory of the project
   </li>
   <li>Set the following environment variables in the `.env` files:
-  <br>`MONGO_URI=mongodb://`<your_mongodb_connection_string>`
-  <br>SECRET=`<your_secret_key>`
-  <br>Replace `<your_mongodb_connection_string>` with the connection string for your MongoDB database, and `<your_secret_key>` with a secret key of your choice.
+  <br>`MONGO_URI=mongodb://`your_mongodb_connection_url`
+  <br>SECRET=`your_secret_key`
+  <br>Replace ``your_mongodb_connection_url`` with the connection string for your MongoDB database, and `your_secret_key` with a secret key of your choice.
   </li>
   </ol>
 
