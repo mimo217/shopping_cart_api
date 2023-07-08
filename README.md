@@ -7,7 +7,8 @@ To install the Shopping Cart API on your local machine, following these steps:
     <li>Open a terminal window</li>
     <li>Make a directory for the application using the following command:</li>
     `mkdir shopping_cart_api_clone`
-    <li>Navigate to the directory where you want to install the Shopping Cart API application</li>
+    <li>Navigate to the directory where you want to install the Shopping Cart API application using the following command:</li>
+    `cd shopping_cart_api_clone `
     <li>Clone the Github repository to your local machine using the following command:
     <br> `git clone git@github.com:mimo217/unit2_project_shoppingcart_api.git`
     <li>Install Node.js on your local machine. You can download the Node.js installer from the official Node.js website: https://nodejs.org/en/download/</li>
