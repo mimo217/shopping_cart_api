@@ -9,7 +9,11 @@ To install the Shopping Cart API on your local machine, following these steps:
     <li>Make a directory for the application:</li>
     <li>Navigate to the directory where you want to install the Shopping Cart API application</li>
     <li>Clone the Github repository to your local machine using the following command:
+<<<<<<< HEAD
     <br> `git clone`
+=======
+    <br> `gh repo clone mimo217/unit2_project_shoppingcart_api`
+>>>>>>> 05ae7db9fdad3b1caf6ad131729de34e4af90066
     <li>Install Node.js on your local machine. You can download the Node.js installer from the official Node.js website: https://nodejs.org/en/download/</li>
     <li>Install MongoDB on your local machine. You can download the MongoDB installer from the official MongoDB website: https://www.mongodb.com/try/download/community</li>
     <li>Install Postman on your local machine. You can download the Postman installer from the official Postman website: https://www.postman.com/downloads/</li>
